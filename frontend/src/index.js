@@ -1,18 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
-import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { getConfig } from "./config";
+
+const config = getConfig();
+
+const providerConfig = {
+  domain: config.domain,
+  clientId: config.clientId,
+  ...(config.audience ? { audience: config.audience } : null),
+  redirectUri: window.location.origin,
+};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Auth0Provider
-    domain="dev-vhcqbq4w.eu.auth0.com"
-    clientId="VqZZPbPvPHHNzrECwJYn0sGKNp2OebKg"
-    redirectUri={window.location.origin}
-  >
+  <Auth0Provider {...providerConfig}>
     <App />
   </Auth0Provider>
 );

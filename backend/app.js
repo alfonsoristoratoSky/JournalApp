@@ -6,7 +6,7 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const indexRouter = require("./routes/index");
-
+const { auth } = require("express-oauth2-jwt-bearer");
 const app = express();
 
 app.use(bodyParser.json());
@@ -23,6 +23,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Auth0
+// TODO: Secure audience and issuer with env files
+const checkJwt = auth({
+  audience: "JournalAppAPI",
+  issuerBaseURL: `https://dev-vhcqbq4w.eu.auth0.com/`,
+});
+app.use(checkJwt);
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
