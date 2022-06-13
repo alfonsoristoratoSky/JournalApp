@@ -1,15 +1,20 @@
 const { sendQueryAndReturnResponse } = require("./../../utils/serverFuncs");
 module.exports = {
-  findAll: async () => {
-    const query = "SELECT * FROM journalEntries";
-    return await sendQueryAndReturnResponse(query);
+  findAll: async (data) => {
+    const query = "SELECT * FROM journalEntries WHERE emailHashed = ?";
+    let inputs = [];
+    Object.entries(data).forEach(([columnName, value]) => {
+      inputs.push(value);
+    });
+
+    return await sendQueryAndReturnResponse(query, inputs);
   },
 
-  addEntry: async (message) => {
+  addEntry: async (data) => {
     let query =
       "INSERT INTO journalEntries (entry, feelingState, emailHashed) VALUES (?, ?, ?)";
     let inputs = [];
-    Object.entries(message).forEach(([columnName, value]) => {
+    Object.entries(data).forEach(([columnName, value]) => {
       inputs.push(value);
     });
     return await sendQueryAndReturnResponse(query, inputs);

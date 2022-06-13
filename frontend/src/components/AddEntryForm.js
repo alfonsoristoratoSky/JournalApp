@@ -2,9 +2,11 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Rating } from "react-simple-star-rating";
 import { addEntry } from "../utils/apiService";
 const AddEntryForm = ({ tokenGenerator, setEntries }) => {
+  const { user } = useAuth0();
   const {
     register,
     handleSubmit,
@@ -13,7 +15,7 @@ const AddEntryForm = ({ tokenGenerator, setEntries }) => {
   } = useForm();
   const onSubmit = (data) => {
     data.feelingState = rating;
-    data.emailHashed = "ahsahsha";
+    data.email = user.email;
     addEntry(tokenGenerator, setEntries, data);
   };
   const [rating, setRating] = useState(20);

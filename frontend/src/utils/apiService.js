@@ -20,11 +20,22 @@ export const callApi = async (route, methodUsed, bodyUsed, token) => {
   }
 };
 
-export const readEntries = async (tokenGenerator, setter, tokenPassed) => {
+export const readEntries = async (
+  tokenGenerator,
+  data,
+  setter,
+  tokenPassed
+) => {
   try {
     let token;
     tokenPassed ? (token = tokenPassed) : (token = await tokenGenerator());
-    let response = await callApi("journalEntries", null, null, token);
+
+    let response = await callApi(
+      `journalEntries/?email=${data}`,
+      null,
+      null,
+      token
+    );
     setter(response);
   } catch (error) {
     throw error;
@@ -35,7 +46,7 @@ export const addEntry = async (tokenGenerator, setter, data) => {
   try {
     let token = await tokenGenerator("create:entries");
     await callApi("journalEntries", "POST", data, token);
-    await readEntries(null, setter, token);
+    await readEntries(null, null, setter, token);
   } catch (error) {
     throw error;
   }

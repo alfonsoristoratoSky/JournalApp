@@ -37,7 +37,7 @@ const JournalEntries = () => {
   };
 
   useEffect(() => {
-    readEntries(genericToken, setEntries);
+    readEntries(genericToken, user.email, setEntries);
   }, []);
 
   return (

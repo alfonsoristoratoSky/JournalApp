@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const { requiredScopes } = require("express-oauth2-jwt-bearer");
 const {
   returnResponseOfDataAccessorResponse,
@@ -10,15 +11,17 @@ const editEntriesScope = requiredScopes("edit:entries");
 const deleteEntriesScope = requiredScopes("delete:entries");
 
 router.get("/", async (req, res) => {
+  let data = req.query;
   try {
     await returnResponseOfDataAccessorResponse(
-      dataAccessor.journalEntries.findAll(),
+      dataAccessor.journalEntries.findAll(data),
       res
     );
   } catch (error) {
     throw error;
   }
 });
+
 router.post("/", createEntriesScope, async (req, res) => {
   let data = req.body;
 
