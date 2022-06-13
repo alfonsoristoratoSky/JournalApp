@@ -17,6 +17,7 @@ const JournalEntries = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
   const [entries, setEntries] = useState([]);
+  const [editMode, setEditMode] = useState(false);
   const { getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
 
   const genericToken = async () => {
@@ -41,7 +42,7 @@ const JournalEntries = () => {
   }, []);
 
   return (
-    <Container className="journal-entries-page">
+    <Container className="container-bg">
       {!isAuthenticated && <div> Not auth</div>}
       {isAuthenticated && (
         <React.Fragment>
@@ -50,6 +51,8 @@ const JournalEntries = () => {
               <AddEntryForm
                 tokenGenerator={scopedToken}
                 setEntries={setEntries}
+                editMode={editMode}
+                setEditMode={setEditMode}
               />
             </Col>
             <Col xs={9}>
@@ -62,10 +65,19 @@ const JournalEntries = () => {
                 }}
                 isClearable={true}
               />
-
-              {entries.map((entry, index) => {
-                return <EntryCard key={index} entry={entry} />;
-              })}
+              <Row xs={12} md={12} className="g-4">
+                {entries.map((entry, index) => {
+                  return (
+                    <EntryCard
+                      key={index}
+                      entry={entry}
+                      tokenGenerator={scopedToken}
+                      setEntries={setEntries}
+                      setEditMode={setEditMode}
+                    />
+                  );
+                })}
+              </Row>
             </Col>
           </Row>
         </React.Fragment>

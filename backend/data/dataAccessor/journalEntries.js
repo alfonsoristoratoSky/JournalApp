@@ -20,20 +20,21 @@ module.exports = {
     return await sendQueryAndReturnResponse(query, inputs);
   },
 
-  editEntry: async (newMessage, messageId) => {
-    let query = "UPDATE journalEntries SET `entry` = ? WHERE `id` = ?";
+  editEntry: async (newEntry, entryId) => {
+    let query =
+      "UPDATE journalEntries SET entry = ?, feelingState = ? WHERE id = ?";
     let inputs = [];
 
-    Object.entries(newMessage).forEach(async ([columnName, value]) => {
+    Object.entries(newEntry).forEach(async ([columnName, value]) => {
       inputs.push(value);
     });
-    inputs.push(messageId);
+    inputs.push(entryId);
     return await sendQueryAndReturnResponse(query, inputs);
   },
 
-  deleteEntry: async (messageId) => {
+  deleteEntry: async (entryId) => {
     let query = "DELETE FROM journalEntries WHERE `id` = ?";
 
-    return await sendQueryAndReturnResponse(query, messageId);
+    return await sendQueryAndReturnResponse(query, entryId);
   },
 };

@@ -4,7 +4,6 @@ const sendQueryAndReturnResponse = async (query, inputs) => {
   try {
     let inputsClean;
     if (inputs !== undefined) inputsClean = inputs;
-
     // handle the error of the below
     let data = await pool.query(query, inputsClean);
 

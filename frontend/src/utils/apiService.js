@@ -22,7 +22,7 @@ export const callApi = async (route, methodUsed, bodyUsed, token) => {
 
 export const readEntries = async (
   tokenGenerator,
-  data,
+  email,
   setter,
   tokenPassed
 ) => {
@@ -31,7 +31,7 @@ export const readEntries = async (
     tokenPassed ? (token = tokenPassed) : (token = await tokenGenerator());
 
     let response = await callApi(
-      `journalEntries/?email=${data}`,
+      `journalEntries/?email=${email}`,
       null,
       null,
       token
@@ -46,7 +46,28 @@ export const addEntry = async (tokenGenerator, setter, data) => {
   try {
     let token = await tokenGenerator("create:entries");
     await callApi("journalEntries", "POST", data, token);
-    await readEntries(null, null, setter, token);
+    await readEntries(null, data.email, setter, token);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editEntry = async (tokenGenerator, setter, data, id, email) => {
+  try {
+    let token = await tokenGenerator("edit:entries");
+
+    await callApi(`journalEntries/${id}`, "PUT", data, token);
+    await readEntries(null, email, setter, token);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteEntry = async (tokenGenerator, setter, data) => {
+  try {
+    let token = await tokenGenerator("delete:entries");
+    await callApi(`journalEntries/${data.id}`, "DELETE", null, token);
+    await readEntries(null, data.email, setter, token);
   } catch (error) {
     throw error;
   }
