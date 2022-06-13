@@ -52,12 +52,20 @@ export const addEntry = async (tokenGenerator, setter, data) => {
   }
 };
 
-export const editEntry = async (tokenGenerator, setter, data, id, email) => {
+export const editEntry = async (
+  tokenGenerator,
+  setter,
+  data,
+  id,
+  email,
+  setEditMode
+) => {
   try {
     let token = await tokenGenerator("edit:entries");
 
     await callApi(`journalEntries/${id}`, "PUT", data, token);
     await readEntries(null, email, setter, token);
+    setEditMode(false);
   } catch (error) {
     throw error;
   }

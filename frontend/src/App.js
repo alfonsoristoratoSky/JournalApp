@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import JournalEntries from "./pages/JournalEntries";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./App.css";
 const App = () => {
   const { isLoading, error } = useAuth0();
   if (error) {

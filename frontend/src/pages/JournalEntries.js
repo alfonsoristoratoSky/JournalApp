@@ -47,7 +47,7 @@ const JournalEntries = () => {
       {isAuthenticated && (
         <React.Fragment>
           <Row>
-            <Col>
+            <Col className={"m-2 border-container"}>
               <AddEntryForm
                 tokenGenerator={scopedToken}
                 setEntries={setEntries}
@@ -55,7 +55,7 @@ const JournalEntries = () => {
                 setEditMode={setEditMode}
               />
             </Col>
-            <Col xs={9}>
+            <Col xs={9} className={"m-2 border-container"}>
               <DatePicker
                 selectsRange={true}
                 startDate={startDate}

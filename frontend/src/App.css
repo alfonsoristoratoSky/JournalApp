@@ -28,8 +28,14 @@
   color: #61dafb;
 }
 
+.border-container{
+  border-style: dotted;
+  
+}
+
 .card-footer{
   text-align: center;
+
 }
 
 @keyframes App-logo-spin {

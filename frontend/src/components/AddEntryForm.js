@@ -29,7 +29,8 @@ const AddEntryForm = ({
           setEntries,
           data,
           editMode.id,
-          editMode.emailHashed
+          editMode.emailHashed,
+          setEditMode
         )
       : addEntry(tokenGenerator, setEntries, data);
   };
@@ -52,6 +53,7 @@ const AddEntryForm = ({
           as="textarea"
           rows={6}
           placeholder="Write your thoughts"
+          // {...(editMode) && {defaultValue: editMode.entry}}
           defaultValue={editMode ? editMode.entry : ""}
           {...register("entry", { required: true })}
         />
