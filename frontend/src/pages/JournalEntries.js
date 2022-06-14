@@ -10,6 +10,7 @@ import EntryCard from "../components/EntryCard";
 import { readEntries } from "../utils/apiService";
 // import { getConfig } from "../config";
 import AddEntryForm from "../components/AddEntryForm";
+import moment from "moment";
 
 const JournalEntries = () => {
   //   const { apiOrigin = "http://localhost:8080", audience } = getConfig();
@@ -36,10 +37,28 @@ const JournalEntries = () => {
       });
     }
   };
-
+  const dateRangeSetter = (update) => {
+    // manipulate update[1] to reflect end of day
+    setDateRange(update);
+  };
   useEffect(() => {
-    readEntries(genericToken, user.email, setEntries);
-  }, []);
+    if (dateRange[0] !== null && dateRange[1] !== null) {
+      let newEntries = [];
+
+      entries.map((entry) => {
+        if (
+          new Date(entry.created_at) >= new Date(dateRange[0]) &&
+          new Date(entry.created_at) <= new Date(dateRange[1])
+        ) {
+          newEntries.push(entry);
+        }
+      });
+
+      setEntries(newEntries);
+    } else {
+      readEntries(genericToken, user.email, setEntries);
+    }
+  }, [dateRange]);
 
   return (
     <Container className="container-bg">
@@ -56,15 +75,20 @@ const JournalEntries = () => {
               />
             </Col>
             <Col xs={9} className={"m-2 border-container"}>
-              <DatePicker
-                selectsRange={true}
-                startDate={startDate}
-                endDate={endDate}
-                onChange={(update) => {
-                  setDateRange(update);
-                }}
-                isClearable={true}
-              />
+              <Row xs={12} className="m-4 text-center">
+                <div>Select a date range to view entries for that period</div>
+                <DatePicker
+                  selectsRange={true}
+                  startDate={startDate}
+                  endDate={endDate}
+                  onChange={(update) => {
+                    dateRangeSetter(update);
+                  }}
+                  isClearable={true}
+                  placeholderText="All dates selected"
+                />
+              </Row>
+
               <Row xs={12} md={12} className="g-4">
                 {entries.map((entry, index) => {
                   return (
