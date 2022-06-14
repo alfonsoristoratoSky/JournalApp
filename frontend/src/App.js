@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import JournalEntries from "./pages/JournalEntries";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
+import About from "./pages/About";
 const App = () => {
   const { isLoading, error } = useAuth0();
   if (error) {
@@ -18,11 +19,8 @@ const App = () => {
     <Router>
       <div>
         <NavBar />
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Routes>
-          <Route path="/about"></Route>
+          <Route path="/about" element={<About />}></Route>
 
           <Route path="/" element={<JournalEntries />}></Route>
         </Routes>

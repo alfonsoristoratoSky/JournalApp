@@ -37,32 +37,33 @@ const JournalEntries = () => {
       });
     }
   };
-  const dateRangeSetter = (update) => {
-    // manipulate update[1] to reflect end of day
-    setDateRange(update);
-  };
+
   useEffect(() => {
-    if (dateRange[0] !== null && dateRange[1] !== null) {
-      let newEntries = [];
+    if (isAuthenticated) {
+      if (dateRange[0] !== null && dateRange[1] !== null) {
+        let newEndRange = new Date(dateRange[1]);
+        newEndRange.setDate(newEndRange.getDate() + 1);
+        let newEntries = [];
 
-      entries.map((entry) => {
-        if (
-          new Date(entry.created_at) >= new Date(dateRange[0]) &&
-          new Date(entry.created_at) <= new Date(dateRange[1])
-        ) {
-          newEntries.push(entry);
-        }
-      });
+        entries.map((entry) => {
+          if (
+            new Date(entry.created_at) >= new Date(dateRange[0]) &&
+            new Date(entry.created_at) <= newEndRange
+          ) {
+            newEntries.push(entry);
+          }
+        });
 
-      setEntries(newEntries);
-    } else {
-      readEntries(genericToken, user.email, setEntries);
+        setEntries(newEntries);
+      } else {
+        readEntries(genericToken, user.email, setEntries);
+      }
     }
   }, [dateRange]);
 
   return (
     <Container className="container-bg">
-      {!isAuthenticated && <div> Not auth</div>}
+      {!isAuthenticated && <div> Not authenticated</div>}
       {isAuthenticated && (
         <React.Fragment>
           <Row>
@@ -82,7 +83,7 @@ const JournalEntries = () => {
                   startDate={startDate}
                   endDate={endDate}
                   onChange={(update) => {
-                    dateRangeSetter(update);
+                    setDateRange(update);
                   }}
                   isClearable={true}
                   placeholderText="All dates selected"
