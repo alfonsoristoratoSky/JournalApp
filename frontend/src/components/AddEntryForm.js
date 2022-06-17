@@ -71,7 +71,7 @@ const AddEntryForm = ({
         />
       </Form.Group>
 
-      <Button variant="secondary" type="submit">
+      <Button variant="secondary" type="submit" className="mb-2">
         Submit
       </Button>
       {editMode && (
@@ -80,6 +80,7 @@ const AddEntryForm = ({
           onClick={() => {
             setEditMode(false);
           }}
+          className="mb-2"
         >
           Cancel Edit
         </Button>

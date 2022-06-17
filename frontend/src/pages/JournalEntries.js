@@ -62,7 +62,7 @@ const JournalEntries = () => {
   }, [dateRange]);
 
   return (
-    <Container className="container-bg">
+    <Container>
       {!isAuthenticated && <div> Not authenticated</div>}
       {isAuthenticated && (
         <React.Fragment>
@@ -85,12 +85,13 @@ const JournalEntries = () => {
                   onChange={(update) => {
                     setDateRange(update);
                   }}
+                  className="date-picker"
                   isClearable={true}
                   placeholderText="All dates selected"
                 />
               </Row>
 
-              <Row xs={12} md={12} className="g-4">
+              <Row xs={12} md={12} className="g-4 m-2">
                 {entries.map((entry, index) => {
                   return (
                     <EntryCard

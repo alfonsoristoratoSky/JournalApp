@@ -29,8 +29,13 @@
 }
 
 .border-container{
-  border-style: dotted;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   
+}
+
+.date-picker {
+  width: 90%;
+  text-align: center;
 }
 
 .text-center{
